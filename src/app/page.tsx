@@ -88,7 +88,7 @@ function Hero() {
             <div className="inline-flex items-center gap-2 rounded-full border border-varq-saffron/30 bg-varq-saffron/10 px-4 py-1.5">
               <Sparkles size={14} className="text-varq-terracotta" />
               <span className="text-xs font-medium tracking-wide text-varq-terracotta uppercase">
-                Now available on the Mac App Store
+                Now on the Mac App Store
               </span>
             </div>
             <h1 className="font-serif text-5xl font-bold leading-[1.1] tracking-tight text-varq-indigo md:text-6xl lg:text-7xl">
