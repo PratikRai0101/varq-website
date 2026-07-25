@@ -258,7 +258,7 @@ function Features() {
           {features.map((f) => (
             <div
               key={f.title}
-              className="group rounded-2xl border border-varq-ink-light/8 bg-varq-parchment-deep/50 p-7 transition-all hover:border-varq-saffron/20 hover:bg-varq-parchment-deep hover:shadow-lg hover:shadow-varq-saffron/5"
+              className="group rounded-2xl border border-varq-ink-light/8 bg-varq-parchment-deep/50 p-7 transition-all duration-300 hover:-translate-y-0.5 hover:border-varq-saffron/20 hover:bg-varq-parchment-deep hover:shadow-lg hover:shadow-varq-saffron/5"
             >
               <div
                 className={`mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl ${f.color} transition-transform group-hover:scale-105`}
