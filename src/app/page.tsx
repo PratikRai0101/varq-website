@@ -1,209 +1,154 @@
 "use client";
 
-import {
-  BookOpen,
-  Download,
-  Fingerprint,
-  Highlighter,
-  Library,
-  Palette,
-  Sparkles,
-  Star,
-} from "lucide-react";
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { AnimatedSection, StaggerContainer, StaggerItem } from "@/components/AnimatedSection";
-import { StaggerText } from "@/components/StaggerText";
-import { TiltCard } from "@/components/TiltCard";
-import { AmbientOrbs } from "@/components/AmbientOrbs";
-import { JaliPattern } from "@/components/JaliPattern";
-import { ArchDivider } from "@/components/ArchDivider";
-import { BlurImage } from "@/components/BlurImage";
+import { motion } from "framer-motion";
+import { ArrowRight, ArrowUpRight, Menu, X } from "lucide-react";
+import { HalftonePattern } from "@/components/HalftonePattern";
 
-/* ───────── Navbar ───────── */
-function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+/* ───────── Top Bar ───────── */
+function TopBar() {
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <AnimatePresence>
-      <motion.nav
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.2 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-varq-parchment/90 backdrop-blur-md shadow-[0_1px_0_rgba(36,31,61,0.06)]"
-            : "bg-transparent"
-        }`}
-      >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <a href="#" className="flex items-center gap-2.5">
-            <img
-              src="/compass-mark.svg"
-              alt="Varq compass mark"
-              width={28}
-              height={28}
-              className="opacity-90"
-            />
-            <span className="font-serif text-xl font-semibold tracking-tight text-varq-ink-light">
-              Varq
-            </span>
-          </a>
-          <div className="hidden items-center gap-8 md:flex">
-            {["Features", "Showcase", "Download"].map((item) => (
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-aspen-border bg-white">
+      <div className="flex h-14 items-stretch">
+        {/* Logo */}
+        <div className="flex w-14 items-center justify-center border-r border-aspen-border">
+          <img src="/compass-mark.svg" alt="Varq" className="h-6 w-6" />
+        </div>
+
+        {/* Time / Location */}
+        <div className="hidden items-center border-r border-aspen-border px-6 text-xs font-medium tracking-widest uppercase text-aspen-dark/60 md:flex">
+          Native e-reader for macOS
+        </div>
+
+        {/* Nav */}
+        <nav className="hidden flex-1 items-center justify-center gap-8 text-sm font-medium text-aspen-dark md:flex">
+          {["About", "Features", "Testimonials", "Download"].map((item) => (
+            <a
+              key={item}
+              href={`#${item.toLowerCase()}`}
+              className="transition-opacity hover:opacity-60"
+            >
+              {item}
+            </a>
+          ))}
+        </nav>
+
+        {/* Mobile menu toggle */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="flex flex-1 items-center justify-end border-l border-aspen-border px-6 md:hidden"
+        >
+          {menuOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+
+        {/* Contact CTA */}
+        <a
+          href="#download"
+          className="hidden items-center gap-2 border-l border-aspen-border bg-aspen-dark px-6 text-sm font-medium text-white transition-colors hover:bg-varq-indigo md:flex"
+        >
+          Get Varq
+          <ArrowRight size={16} />
+        </a>
+      </div>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="border-b border-aspen-border bg-white px-6 py-6 md:hidden">
+          <nav className="flex flex-col gap-4 text-lg font-medium">
+            {["About", "Features", "Testimonials", "Download"].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="text-sm font-medium text-varq-ink-light/70 transition-colors hover:text-varq-ink-light"
+                onClick={() => setMenuOpen(false)}
+                className="py-2"
               >
                 {item}
               </a>
             ))}
             <a
-              href="https://github.com/PratikRai0101/Varq"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-sm font-medium text-varq-ink-light/70 transition-colors hover:text-varq-terracotta"
+              href="#download"
+              className="mt-2 inline-flex items-center gap-2 bg-aspen-dark px-4 py-3 text-sm font-medium text-white"
             >
-              <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden="true">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              <span>GitHub</span>
+              Get Varq <ArrowRight size={16} />
             </a>
-          </div>
+          </nav>
         </div>
-      </motion.nav>
-    </AnimatePresence>
+      )}
+    </header>
   );
 }
 
 /* ───────── Hero ───────── */
 function Hero() {
   return (
-    <section className="relative overflow-hidden bg-varq-parchment px-6 pt-32 pb-20 md:pt-40 md:pb-28">
-      <JaliPattern />
-      <div className="relative mx-auto max-w-7xl">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <div className="flex flex-col items-start gap-6">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.3 }}
-              className="inline-flex items-center gap-2 rounded-full border border-varq-saffron/30 bg-varq-saffron/10 px-4 py-1.5"
-            >
-              <Sparkles size={14} className="text-varq-terracotta" />
-              <span className="text-xs font-medium tracking-wide text-varq-terracotta uppercase">
-                Now on the Mac App Store
-              </span>
-            </motion.div>
-
-            <StaggerText
-              text="The Apple Books polish Calibre never had."
-              tag="h1"
-              className="font-serif text-5xl font-bold leading-[1.1] tracking-tight text-varq-indigo md:text-6xl lg:text-7xl"
-              delay={0.5}
-              staggerDelay={0.05}
-            />
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
+    <section id="about" className="relative mt-14 min-h-[calc(100vh-3.5rem)]">
+      <div className="grid min-h-[calc(100vh-3.5rem)] md:grid-cols-2">
+        {/* Left — White + Massive Varq */}
+        <div className="relative flex flex-col border-b border-aspen-border bg-white md:border-b-0 md:border-r">
+          <div className="flex flex-1 items-end p-6 md:p-10">
+            <motion.h1
+              initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 80, damping: 20, delay: 1.2 }}
-              className="max-w-lg text-lg leading-relaxed text-varq-ink-light/80"
+              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+              className="text-[clamp(5rem,15vw,14rem)] font-bold leading-[0.85] tracking-tighter text-aspen-dark"
             >
-              A native, open-source e-reader for macOS. Built in Swift/SwiftUI
-              with native macOS reader components — no Electron, no web
-              wrappers. Reads EPUB, PDF, and CBZ with a warm, distinctly Indian
-              visual soul.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 80, damping: 20, delay: 1.4 }}
-              className="flex flex-wrap items-center gap-4 pt-2"
-            >
-              <motion.a
-                whileHover={{ scale: 1.03, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                href="#download"
-                className="inline-flex items-center gap-2 rounded-xl bg-varq-indigo px-7 py-3.5 text-sm font-semibold text-varq-parchment shadow-lg shadow-varq-indigo/20 transition-colors hover:bg-varq-indigo-light hover:shadow-xl hover:shadow-varq-indigo/30"
-              >
-                <Download size={18} />
-                Download for macOS
-              </motion.a>
-              <motion.a
-                whileHover={{ scale: 1.03, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                href="https://github.com/PratikRai0101/Varq"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border-2 border-varq-ink-light/15 bg-transparent px-7 py-3.5 text-sm font-semibold text-varq-ink-light transition-colors hover:border-varq-terracotta hover:text-varq-terracotta"
-              >
-                <Star size={18} />
-                Star on GitHub
-              </motion.a>
-            </motion.div>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.6 }}
-              className="text-xs text-varq-ink-light/50"
-            >
-              Requires macOS 15+ (Sequoia or later). Free & open source under MIT License.
-            </motion.p>
+              Varq
+            </motion.h1>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 60, rotateY: -8 }}
-            animate={{ opacity: 1, x: 0, rotateY: 0 }}
-            transition={{ type: "spring", stiffness: 60, damping: 20, delay: 0.8 }}
-            className="relative"
-            style={{ perspective: 1000 }}
-          >
-            <div className="relative rounded-2xl shadow-[0_32px_64px_-12px_rgba(181,80,42,0.25)] ring-1 ring-varq-ink-light/5">
-              <BlurImage
-                src="/screenshots/library-light.webp"
-                placeholderSrc="/screenshots/library-light-placeholder.webp"
-                mobileSrc="/screenshots/library-light-mobile.webp"
-                alt="Varq library view showing warm parchment background with book covers"
-                width={1600}
-                height={1040}
-                className="rounded-2xl"
-                priority
-              />
+          {/* Halftone bottom-left quadrant */}
+          <div className="relative h-48 border-t border-aspen-border md:h-auto md:flex-1">
+            <HalftonePattern color="#2E2717" dotSize={1.2} spacing={5} />
+            <div className="absolute bottom-0 left-0 p-6 md:p-8">
+              <p className="max-w-xs text-sm leading-relaxed text-aspen-dark/80">
+                A native, open-source e-reader for macOS. Built in Swift/SwiftUI — no Electron, no web wrappers.
+              </p>
             </div>
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 80, damping: 20, delay: 1.6 }}
-              className="absolute -bottom-6 -right-6 hidden lg:block"
+          </div>
+        </div>
+
+        {/* Right — Halftone + Cards */}
+        <div className="relative flex flex-col">
+          {/* Halftone top */}
+          <div className="relative flex-1">
+            <HalftonePattern color="#2E2717" dotSize={1.2} spacing={5} />
+          </div>
+
+          {/* Dark card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="relative border-t border-aspen-border bg-aspen-dark p-6 md:p-8"
+          >
+            <p className="max-w-md text-lg leading-snug text-white/90">
+              The Apple Books polish{" "}
+              <span className="text-varq-saffron">Calibre</span> never had.
+              Reads EPUB, PDF, and CBZ with a warm, distinctly Indian visual soul.
+            </p>
+          </motion.div>
+
+          {/* Saffron accent card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.7 }}
+            className="relative border-t border-aspen-border bg-varq-saffron p-6 md:p-8"
+          >
+            <p className="text-sm font-medium uppercase tracking-widest text-aspen-dark/70">
+              Now on the Mac App Store
+            </p>
+            <p className="mt-2 text-lg font-medium text-aspen-dark">
+              Free & open source. MIT Licensed.
+            </p>
+            <a
+              href="#download"
+              className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-aspen-dark transition-opacity hover:opacity-60"
             >
-              <div className="rounded-xl border border-varq-saffron/20 bg-varq-parchment-deep/95 p-4 shadow-lg backdrop-blur-sm">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-varq-saffron/20">
-                    <BookOpen size={20} className="text-varq-terracotta" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-varq-ink-light">
-                      EPUB · PDF · CBZ
-                    </p>
-                    <p className="text-xs text-varq-ink-light/60">
-                      All your books, one app
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+              Start a conversation <ArrowRight size={16} />
+            </a>
           </motion.div>
         </div>
       </div>
@@ -211,145 +156,72 @@ function Hero() {
   );
 }
 
-/* ───────── Brand Story ───────── */
-function BrandStory() {
-  return (
-    <section className="relative overflow-hidden bg-varq-indigo px-6 py-24 md:py-32">
-      <AmbientOrbs />
-      <div className="relative mx-auto max-w-3xl text-center">
-        <AnimatedSection delay={0.1}>
-          <div className="mb-8 inline-flex items-center justify-center">
-            <div className="h-px w-12 bg-varq-saffron/40" />
-            <span className="mx-4 font-serif text-sm font-medium tracking-widest text-varq-saffron uppercase">
-              The Name
-            </span>
-            <div className="h-px w-12 bg-varq-saffron/40" />
-          </div>
-        </AnimatedSection>
-
-        <AnimatedSection delay={0.2}>
-          <h2 className="font-serif text-3xl font-semibold leading-snug text-varq-parchment md:text-4xl">
-            Varq
-            <span className="mx-3 text-varq-saffron/60">—</span>
-            <span className="italic text-varq-saffron">वर्क़</span>
-            <span className="mx-3 text-varq-saffron/60">—</span>
-            <span className="italic text-varq-saffron">ورق</span>
-          </h2>
-        </AnimatedSection>
-
-        <AnimatedSection delay={0.3}>
-          <p className="mt-6 text-lg leading-relaxed text-varq-parchment/80">
-            Meaning <em className="text-varq-saffron">leaf</em> or{" "}
-            <em className="text-varq-saffron">page</em> in Hindi and Urdu. Also
-            the term for the gossamer-thin gold and silver foil pressed onto Indian
-            sweets and art — delicate, precious, and luminous.
-          </p>
-        </AnimatedSection>
-
-        <AnimatedSection delay={0.4}>
-          <p className="mt-4 text-lg leading-relaxed text-varq-parchment/70">
-            That is the spirit of this app: a reading experience that feels like
-            turning pages of gold. Warm where it matters, restrained where it
-            counts. The Indian visual soul — in color, warmth, and elegance — not
-            in cliché.
-          </p>
-        </AnimatedSection>
-
-        <AnimatedSection delay={0.5}>
-          <div className="mt-10 flex items-center justify-center gap-4">
-            <div className="h-px w-16 bg-varq-saffron/20" />
-            <div className="h-1.5 w-1.5 rounded-full bg-varq-saffron/40" />
-            <div className="h-px w-16 bg-varq-saffron/20" />
-          </div>
-        </AnimatedSection>
-      </div>
-    </section>
-  );
-}
-
-/* ───────── Features ───────── */
+/* ───────── Features Grid ───────── */
 function Features() {
   const features = [
     {
-      icon: <Library size={22} />,
-      title: "Beautiful library",
-      description:
-        "Drag and drop EPUB, PDF, and CBZ files. Auto-extracted covers, titles, and authors. Duplicate detection. Sortable grid view.",
+      title: "Library",
+      text: "Drag and drop EPUB, PDF, CBZ. Auto-extracted covers, titles, authors. Duplicate detection. Sortable grid.",
+      bg: "bg-white",
+      hasHalftone: true,
     },
     {
-      icon: <BookOpen size={22} />,
-      title: "Native reading",
-      description:
-        "Paginated EPUB and PDF rendering via native macOS components. Page turns via arrow keys, trackpad swipe, and click zones. Remembers your exact position.",
+      title: "Reader",
+      text: "Native paginated EPUB/PDF. Arrow keys, swipe, click zones. Remembers exact position per book.",
+      bg: "bg-aspen-dark",
+      textColor: "text-white/90",
+      hasHalftone: false,
     },
     {
-      icon: <Highlighter size={22} />,
-      title: "Highlights & notes",
-      description:
-        "Persistent highlights in warm terracotta and saffron tones. Personal notes with clickable citation markers. Export to Markdown or JSON.",
+      title: "Highlights",
+      text: "Persistent highlights in terracotta and saffron. Notes with citation markers. Export to Markdown or JSON.",
+      bg: "bg-varq-saffron",
+      textColor: "text-aspen-dark",
+      hasHalftone: true,
     },
     {
-      icon: <Palette size={22} />,
-      title: "Warm reading modes",
-      description:
-        "Five appearances: Light, Indigo, Black, and Monochrome for the chrome — plus an independent Sepia page tone for the book itself, regardless of UI mode.",
-    },
-    {
-      icon: <Fingerprint size={22} />,
-      title: "Private shelf",
-      description:
-        "Touch ID-gated access to your most personal books. Real encryption at rest via CryptoKit — not just UI hiding.",
-    },
-    {
-      icon: <Sparkles size={22} />,
-      title: "Reading assistant",
-      description:
-        "On-device AI explanations, summaries, and grounded Q&A via Apple Intelligence. Private, fast, and contextual to your selected text.",
+      title: "Private",
+      text: "Touch ID-gated private shelf. Real CryptoKit encryption at rest — not just UI hiding.",
+      bg: "bg-white",
+      hasHalftone: true,
     },
   ];
 
   return (
-    <section id="features" className="relative bg-varq-parchment px-6 py-24 md:py-32">
-      <JaliPattern />
-      <div className="relative mx-auto max-w-7xl">
-        <div className="mb-16 text-center">
-          <AnimatedSection>
-            <span className="font-serif text-sm font-medium tracking-widest text-varq-terracotta uppercase">
-              Features
-            </span>
-          </AnimatedSection>
-          <AnimatedSection delay={0.1}>
-            <h2 className="mt-3 font-serif text-4xl font-semibold tracking-tight text-varq-indigo md:text-5xl">
-              Everything you need to read deeply.
-            </h2>
-          </AnimatedSection>
-          <AnimatedSection delay={0.2}>
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-varq-ink-light/70">
-              No Electron wrappers. No web views. Just native macOS performance
-              with a design language that feels like home.
-            </p>
-          </AnimatedSection>
-        </div>
-
-        <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" staggerDelay={0.08}>
-          {features.map((f) => (
-            <StaggerItem key={f.title}>
-              <TiltCard className="h-full">
-                <div className="group h-full rounded-2xl border border-varq-ink-light/8 bg-varq-parchment-deep/50 p-7 transition-all duration-300 hover:-translate-y-0.5 hover:border-varq-saffron/20 hover:bg-varq-parchment-deep hover:shadow-lg hover:shadow-varq-saffron/5">
-                  <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-varq-saffron/10 text-varq-terracotta transition-transform group-hover:scale-105">
-                    {f.icon}
-                  </div>
-                  <h3 className="font-serif text-lg font-semibold text-varq-ink-light">
-                    {f.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-varq-ink-light/65">
-                    {f.description}
-                  </p>
-                </div>
-              </TiltCard>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+    <section id="features" className="border-t border-aspen-border">
+      <div className="grid md:grid-cols-2">
+        {features.map((f, i) => (
+          <motion.div
+            key={f.title}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: i * 0.1 }}
+            className={`relative min-h-[320px] border-b border-aspen-border p-8 md:min-h-[400px] md:p-10 ${f.bg} ${
+              i % 2 === 0 ? "md:border-r" : ""
+            }`}
+          >
+            {f.hasHalftone && (
+              <HalftonePattern
+                color={f.bg === "bg-white" ? "#2E2717" : "#2E2717"}
+                dotSize={1}
+                spacing={5}
+                className="opacity-[0.08]"
+              />
+            )}
+            <div className="relative">
+              <span className="text-xs font-medium uppercase tracking-widest text-aspen-dark/40">
+                0{i + 1}
+              </span>
+              <h3 className="mt-4 text-4xl font-bold tracking-tight text-aspen-dark md:text-5xl">
+                {f.title}
+              </h3>
+              <p className={`mt-4 max-w-sm text-sm leading-relaxed ${f.textColor || "text-aspen-dark/70"}`}>
+                {f.text}
+              </p>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </section>
   );
@@ -357,156 +229,172 @@ function Features() {
 
 /* ───────── Showcase ───────── */
 function Showcase() {
-  const shots = [
-    {
-      src: "/screenshots/library-light.webp",
-      placeholder: "/screenshots/library-light-placeholder.webp",
-      mobile: "/screenshots/library-light-mobile.webp",
-      alt: "Varq library view in warm light mode with book covers",
-      caption: "Light library — warm parchment, never sterile white",
-    },
-    {
-      src: "/screenshots/reader-highlights.webp",
-      placeholder: "/screenshots/reader-highlights-placeholder.webp",
-      mobile: "/screenshots/reader-highlights-mobile.webp",
-      alt: "Varq reader with terracotta text highlights on sepia page",
-      caption: "Sepia reading page with terracotta highlights",
-    },
-    {
-      src: "/screenshots/reading-assistant.webp",
-      placeholder: "/screenshots/reading-assistant-placeholder.webp",
-      mobile: "/screenshots/reading-assistant-mobile.webp",
-      alt: "Varq reading assistant AI panel explaining selected text",
-      caption: "On-device reading assistant — private and contextual",
-    },
-  ];
-
   return (
-    <section id="showcase" className="relative bg-varq-parchment-deep px-6 py-24 md:py-32">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-16 text-center">
-          <AnimatedSection>
-            <span className="font-serif text-sm font-medium tracking-widest text-varq-terracotta uppercase">
-              Showcase
-            </span>
-          </AnimatedSection>
-          <AnimatedSection delay={0.1}>
-            <h2 className="mt-3 font-serif text-4xl font-semibold tracking-tight text-varq-indigo md:text-5xl">
-              See it for yourself.
-            </h2>
-          </AnimatedSection>
-          <AnimatedSection delay={0.2}>
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-varq-ink-light/70">
-              Every pixel is native SwiftUI. Every color is deliberate. Every
-              animation is fluid.
-            </p>
-          </AnimatedSection>
+    <section id="showcase" className="relative border-t border-aspen-border">
+      <div className="grid md:grid-cols-2">
+        {/* Left — Halftone + Screenshot */}
+        <div className="relative min-h-[400px] border-b border-aspen-border bg-white md:min-h-[600px] md:border-b-0 md:border-r">
+          <HalftonePattern color="#2E2717" dotSize={1.2} spacing={5} className="opacity-[0.06]" />
+          <div className="relative flex h-full items-center justify-center p-8">
+            <motion.img
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              src="/screenshots/library-light.webp"
+              alt="Varq library"
+              className="max-h-[70%] w-auto rounded shadow-2xl"
+              loading="lazy"
+            />
+          </div>
         </div>
 
-        <StaggerContainer className="grid gap-8 md:grid-cols-3" staggerDelay={0.12}>
-          {shots.map((shot) => (
-            <StaggerItem key={shot.src}>
-              <TiltCard className="group" tiltAmount={6}>
-                <div className="overflow-hidden rounded-2xl border border-varq-ink-light/8 bg-varq-parchment shadow-lg shadow-varq-indigo/5 transition-all duration-500 group-hover:shadow-xl group-hover:shadow-varq-terracotta/10">
-                  <BlurImage
-                    src={shot.src}
-                    placeholderSrc={shot.placeholder}
-                    mobileSrc={shot.mobile}
-                    alt={shot.alt}
-                    width={1600}
-                    height={1040}
-                    className="w-full transition-transform duration-700 group-hover:scale-[1.03]"
-                  />
-                </div>
-                <p className="mt-4 text-center text-sm font-medium text-varq-ink-light/60">
-                  {shot.caption}
-                </p>
-              </TiltCard>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+        {/* Right — Massive "Read" */}
+        <div className="relative flex min-h-[300px] flex-col justify-between bg-aspen-gray p-8 md:min-h-[600px] md:p-10">
+          <div />
+          <motion.h2
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="text-[clamp(5rem,12vw,12rem)] font-bold leading-[0.8] tracking-tighter text-aspen-dark"
+          >
+            Read
+          </motion.h2>
+          <p className="max-w-xs text-sm leading-relaxed text-aspen-dark/60">
+            Five warm reading modes. Light, Indigo, Black, Monochrome — plus an independent Sepia page tone.
+          </p>
+        </div>
       </div>
     </section>
   );
 }
 
-/* ───────── Download CTA ───────── */
-function DownloadCTA() {
+/* ───────── Testimonials ───────── */
+function Testimonials() {
   return (
-    <section
-      id="download"
-      className="relative overflow-hidden bg-varq-indigo px-6 py-24 md:py-32"
-    >
-      <AmbientOrbs />
-      <div className="relative mx-auto max-w-4xl text-center">
-        <AnimatedSection>
-          <div className="mb-6 inline-flex items-center justify-center">
+    <section id="testimonials" className="border-t border-aspen-border">
+      <div className="grid md:grid-cols-[1fr_2fr_1fr]">
+        {/* Left — Image panel */}
+        <div className="relative min-h-[300px] border-b border-aspen-border bg-aspen-gray md:min-h-auto md:border-b-0 md:border-r">
+          <div className="absolute inset-0 flex items-center justify-center">
             <img
-              src="/compass-mark.svg"
-              alt="Varq compass mark"
-              width={48}
-              height={48}
-              className="opacity-80"
+              src="/screenshots/reader-highlights.webp"
+              alt="Varq reader"
+              className="h-full w-full object-cover"
+              loading="lazy"
             />
           </div>
-        </AnimatedSection>
+        </div>
 
-        <AnimatedSection delay={0.1}>
-          <h2 className="font-serif text-4xl font-semibold tracking-tight text-varq-parchment md:text-5xl">
-            Start reading with Varq today.
-          </h2>
-        </AnimatedSection>
-
-        <AnimatedSection delay={0.2}>
-          <p className="mx-auto mt-4 max-w-xl text-lg text-varq-parchment/70">
-            Free on the Mac App Store. Open source on GitHub. Built for readers
-            who care about craft.
-          </p>
-        </AnimatedSection>
-
-        <AnimatedSection delay={0.3}>
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <motion.a
-              whileHover={{ scale: 1.04, y: -2 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              href="https://apps.apple.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 rounded-xl bg-varq-parchment px-8 py-4 text-base font-semibold text-varq-indigo shadow-lg shadow-black/20 transition-colors hover:bg-white hover:shadow-xl"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="h-6 w-6"
-                aria-hidden="true"
-              >
-                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.21-1.95 1.07-3.11-1.05.05-2.31.72-3.06 1.64-.68.84-1.27 2.18-1.11 3.29 1.19.09 2.39-.6 3.1-1.82z" />
-              </svg>
-              Download on the Mac App Store
-            </motion.a>
-            <motion.a
-              whileHover={{ scale: 1.04, y: -2 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              href="https://github.com/PratikRai0101/Varq"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 rounded-xl border-2 border-varq-parchment/20 px-8 py-4 text-base font-semibold text-varq-parchment transition-colors hover:border-varq-saffron hover:text-varq-saffron"
-            >
-              <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              View source on GitHub
-            </motion.a>
+        {/* Center — Quote */}
+        <div className="flex flex-col justify-between border-b border-aspen-border bg-white p-8 md:border-b-0 md:border-r md:p-12">
+          <div />
+          <div>
+            <p className="text-xl font-medium leading-snug text-aspen-dark md:text-2xl">
+              "Varq finally gave me the native macOS reading experience I was looking for. The warm sepia mode is perfect for late-night sessions, and exporting highlights to Obsidian is seamless."
+            </p>
+            <div className="mt-8 flex items-center gap-4">
+              <div className="h-10 w-10 rounded-full bg-aspen-dark" />
+              <div>
+                <p className="text-sm font-semibold text-aspen-dark">Alex Chen</p>
+                <p className="text-xs uppercase tracking-wider text-aspen-dark/50">Researcher & Writer</p>
+              </div>
+            </div>
           </div>
-        </AnimatedSection>
+          <div className="mt-8 flex items-center gap-4 text-xs text-aspen-dark/40">
+            <span>01</span>
+            <div className="h-px flex-1 bg-aspen-border" />
+            <span>03</span>
+          </div>
+        </div>
 
-        <AnimatedSection delay={0.4}>
-          <p className="mt-6 text-sm text-varq-parchment/40">
-            macOS 15+ required. MIT Licensed. v1.0
+        {/* Right — Dark metadata */}
+        <div className="flex flex-col justify-between bg-aspen-dark p-8 md:p-10">
+          <div className="space-y-6">
+            <div>
+              <p className="text-xs uppercase tracking-widest text-white/40">Position</p>
+              <p className="mt-1 text-sm font-medium text-white">Power Reader</p>
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-widest text-white/40">Formats</p>
+              <p className="mt-1 text-sm font-medium text-white">EPUB · PDF · CBZ</p>
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-widest text-white/40">Platform</p>
+              <p className="mt-1 text-sm font-medium text-white">macOS 15+</p>
+            </div>
+          </div>
+          <div className="mt-8">
+            <HalftonePattern color="#FFFFFF" dotSize={1} spacing={6} className="opacity-10" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ───────── Team / Download ───────── */
+function DownloadSection() {
+  return (
+    <section id="download" className="border-t border-aspen-border">
+      <div className="grid md:grid-cols-2">
+        {/* Left — Logo on dark */}
+        <div className="relative flex min-h-[300px] flex-col items-center justify-center border-b border-aspen-border bg-aspen-dark p-10 md:min-h-[400px] md:border-b-0 md:border-r">
+          <img src="/compass-mark.svg" alt="Varq" className="h-16 w-16 opacity-90" />
+          <p className="mt-4 text-3xl font-bold text-white">Varq</p>
+          <p className="mt-2 text-xs uppercase tracking-widest text-white/40">
+            © 2026 Pratik Rai
           </p>
-        </AnimatedSection>
+        </div>
+
+        {/* Right — Contact */}
+        <div className="flex flex-col">
+          <div className="flex flex-1 flex-col justify-between p-8 md:p-10">
+            <div>
+              <p className="text-xs uppercase tracking-widest text-aspen-dark/40">Contact</p>
+              <a
+                href="https://github.com/PratikRai0101/Varq"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-flex items-center gap-2 text-lg font-medium text-aspen-dark transition-opacity hover:opacity-60"
+              >
+                github.com/PratikRai0101/Varq
+                <ArrowUpRight size={16} />
+              </a>
+            </div>
+
+            <div className="mt-8 grid grid-cols-2 gap-4 md:mt-0">
+              <a
+                href="https://github.com/PratikRai0101/Varq"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between border border-aspen-border p-4 text-sm font-medium text-aspen-dark transition-colors hover:bg-aspen-gray"
+              >
+                GitHub <ArrowUpRight size={14} />
+              </a>
+              <a
+                href="https://github.com/PratikRai0101/Varq/blob/main/CONTRIBUTING.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between border border-aspen-border p-4 text-sm font-medium text-aspen-dark transition-colors hover:bg-aspen-gray"
+              >
+                Contribute <ArrowUpRight size={14} />
+              </a>
+            </div>
+          </div>
+
+          {/* CTA bar */}
+          <a
+            href="https://apps.apple.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-between border-t border-aspen-border bg-varq-saffron p-6 text-aspen-dark transition-colors hover:bg-varq-terracotta hover:text-white md:p-8"
+          >
+            <span className="text-lg font-semibold">Download on the Mac App Store</span>
+            <ArrowRight size={20} />
+          </a>
+        </div>
       </div>
     </section>
   );
@@ -515,41 +403,17 @@ function DownloadCTA() {
 /* ───────── Footer ───────── */
 function Footer() {
   return (
-    <footer className="border-t border-varq-ink-light/8 bg-varq-parchment px-6 py-12">
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 md:flex-row">
-        <div className="flex items-center gap-2.5">
-          <img
-            src="/compass-mark.svg"
-            alt="Varq"
-            width={20}
-            height={20}
-            className="opacity-60"
-          />
-          <span className="font-serif text-base font-semibold text-varq-ink-light/60">
-            Varq
-          </span>
+    <footer className="border-t border-aspen-border bg-white">
+      <div className="flex h-12 items-stretch text-xs font-medium uppercase tracking-wider text-aspen-dark/50">
+        <div className="flex items-center border-r border-aspen-border px-6">
+          macOS 15+ Required
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-varq-ink-light/50">
-          {[
-            { label: "GitHub", href: "https://github.com/PratikRai0101/Varq" },
-            { label: "Contributing", href: "https://github.com/PratikRai0101/Varq/blob/main/CONTRIBUTING.md" },
-            { label: "Roadmap", href: "https://github.com/PratikRai0101/Varq/blob/main/docs/PRD.md" },
-            { label: "MIT License", href: "https://github.com/PratikRai0101/Varq/blob/main/LICENSE" },
-          ].map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-varq-terracotta"
-            >
-              {link.label}
-            </a>
-          ))}
+        <div className="flex flex-1 items-center px-6">
+          MIT Licensed — Open Source
         </div>
-        <p className="text-xs text-varq-ink-light/40">
-          © {new Date().getFullYear()} Pratik Rai. Built with care in SwiftUI.
-        </p>
+        <div className="flex items-center border-l border-aspen-border px-6">
+          Built with care in SwiftUI
+        </div>
       </div>
     </footer>
   );
@@ -559,15 +423,13 @@ function Footer() {
 export default function Home() {
   return (
     <>
-      <Navbar />
+      <TopBar />
       <main className="flex-1">
         <Hero />
-        <ArchDivider />
-        <BrandStory />
-        <ArchDivider flip />
         <Features />
         <Showcase />
-        <DownloadCTA />
+        <Testimonials />
+        <DownloadSection />
       </main>
       <Footer />
     </>

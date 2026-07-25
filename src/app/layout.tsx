@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import { GrainOverlay } from "@/components/GrainOverlay";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -76,9 +75,8 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-varq-parchment text-varq-ink-light">
+      <body className="min-h-full flex flex-col bg-white text-aspen-dark">
         {children}
-        <GrainOverlay />
       </body>
     </html>
   );

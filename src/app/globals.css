@@ -14,11 +14,18 @@
   --color-varq-ink-light: #2E2717;
   --color-varq-ink-dark: #EDE4D0;
 
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", Georgia, "New York", serif;
+  /* Aspen-style additions */
+  --color-aspen-white: #FFFFFF;
+  --color-aspen-gray: #E8E8E8;
+  --color-aspen-dark: #1A1A1A;
+  --color-aspen-border: #2E2717;
+  --color-aspen-mint: #A8E6CF;
 
-  --color-background: var(--color-varq-parchment);
-  --color-foreground: var(--color-varq-ink-light);
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+
+  --color-background: var(--color-aspen-white);
+  --color-foreground: var(--color-aspen-dark);
 }
 
 @layer base {
@@ -26,20 +33,23 @@
     scroll-behavior: smooth;
   }
   body {
-    background-color: var(--color-varq-parchment);
-    color: var(--color-varq-ink-light);
+    background-color: var(--color-aspen-white);
+    color: var(--color-aspen-dark);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   h1, h2, h3 {
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
   }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .border-grid {
+    border-color: var(--color-aspen-border);
   }
 }
 
