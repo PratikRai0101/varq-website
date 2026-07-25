@@ -404,7 +404,7 @@ function DownloadCTA() {
           </a>
         </div>
         <p className="mt-6 text-sm text-varq-parchment/40">
-          macOS 15+ required. MIT Licensed.
+          macOS 15+ required. MIT Licensed. v1.0
         </p>
       </div>
     </section>
