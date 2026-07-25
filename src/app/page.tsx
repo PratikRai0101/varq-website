@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import {
   BookOpen,
   Download,
@@ -19,6 +18,7 @@ import { TiltCard } from "@/components/TiltCard";
 import { AmbientOrbs } from "@/components/AmbientOrbs";
 import { JaliPattern } from "@/components/JaliPattern";
 import { ArchDivider } from "@/components/ArchDivider";
+import { BlurImage } from "@/components/BlurImage";
 
 /* ───────── Navbar ───────── */
 function Navbar() {
@@ -44,7 +44,7 @@ function Navbar() {
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <a href="#" className="flex items-center gap-2.5">
-            <Image
+            <img
               src="/compass-mark.svg"
               alt="Varq compass mark"
               width={28}
@@ -171,11 +171,13 @@ function Hero() {
             style={{ perspective: 1000 }}
           >
             <div className="relative rounded-2xl shadow-[0_32px_64px_-12px_rgba(181,80,42,0.25)] ring-1 ring-varq-ink-light/5">
-              <Image
-                src="/screenshots/library-light.png"
+              <BlurImage
+                src="/screenshots/library-light.webp"
+                placeholderSrc="/screenshots/library-light-placeholder.webp"
+                mobileSrc="/screenshots/library-light-mobile.webp"
                 alt="Varq library view showing warm parchment background with book covers"
-                width={1710}
-                height={1112}
+                width={1600}
+                height={1040}
                 className="rounded-2xl"
                 priority
               />
@@ -357,17 +359,23 @@ function Features() {
 function Showcase() {
   const shots = [
     {
-      src: "/screenshots/library-light.png",
+      src: "/screenshots/library-light.webp",
+      placeholder: "/screenshots/library-light-placeholder.webp",
+      mobile: "/screenshots/library-light-mobile.webp",
       alt: "Varq library view in warm light mode with book covers",
       caption: "Light library — warm parchment, never sterile white",
     },
     {
-      src: "/screenshots/reader-highlights.png",
+      src: "/screenshots/reader-highlights.webp",
+      placeholder: "/screenshots/reader-highlights-placeholder.webp",
+      mobile: "/screenshots/reader-highlights-mobile.webp",
       alt: "Varq reader with terracotta text highlights on sepia page",
       caption: "Sepia reading page with terracotta highlights",
     },
     {
-      src: "/screenshots/reading-assistant.png",
+      src: "/screenshots/reading-assistant.webp",
+      placeholder: "/screenshots/reading-assistant-placeholder.webp",
+      mobile: "/screenshots/reading-assistant-mobile.webp",
       alt: "Varq reading assistant AI panel explaining selected text",
       caption: "On-device reading assistant — private and contextual",
     },
@@ -400,11 +408,13 @@ function Showcase() {
             <StaggerItem key={shot.src}>
               <TiltCard className="group" tiltAmount={6}>
                 <div className="overflow-hidden rounded-2xl border border-varq-ink-light/8 bg-varq-parchment shadow-lg shadow-varq-indigo/5 transition-all duration-500 group-hover:shadow-xl group-hover:shadow-varq-terracotta/10">
-                  <Image
+                  <BlurImage
                     src={shot.src}
+                    placeholderSrc={shot.placeholder}
+                    mobileSrc={shot.mobile}
                     alt={shot.alt}
-                    width={1710}
-                    height={1112}
+                    width={1600}
+                    height={1040}
                     className="w-full transition-transform duration-700 group-hover:scale-[1.03]"
                   />
                 </div>
@@ -431,7 +441,7 @@ function DownloadCTA() {
       <div className="relative mx-auto max-w-4xl text-center">
         <AnimatedSection>
           <div className="mb-6 inline-flex items-center justify-center">
-            <Image
+            <img
               src="/compass-mark.svg"
               alt="Varq compass mark"
               width={48}
@@ -508,7 +518,7 @@ function Footer() {
     <footer className="border-t border-varq-ink-light/8 bg-varq-parchment px-6 py-12">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 md:flex-row">
         <div className="flex items-center gap-2.5">
-          <Image
+          <img
             src="/compass-mark.svg"
             alt="Varq"
             width={20}
