@@ -188,6 +188,11 @@ function BrandStory() {
           counts. The Indian visual soul — in color, warmth, and elegance — not
           in cliché.
         </p>
+        <div className="mt-10 flex items-center justify-center gap-4">
+          <div className="h-px w-16 bg-varq-saffron/20" />
+          <div className="h-1.5 w-1.5 rounded-full bg-varq-saffron/40" />
+          <div className="h-px w-16 bg-varq-saffron/20" />
+        </div>
       </div>
     </section>
   );
