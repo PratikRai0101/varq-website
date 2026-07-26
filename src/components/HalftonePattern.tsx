@@ -1,5 +1,7 @@
 "use client";
 
+import { useId } from "react";
+
 interface HalftoneProps {
   color?: string;
   dotSize?: number;
@@ -13,7 +15,8 @@ export function HalftonePattern({
   spacing = 6,
   className = "",
 }: HalftoneProps) {
-  const patternId = `ht-${Math.random().toString(36).slice(2, 8)}`;
+  const id = useId();
+  const patternId = `ht-${id.replace(/:/g, "")}`;
   return (
     <div className={`pointer-events-none absolute inset-0 ${className}`} aria-hidden="true">
       <svg width="100%" height="100%">

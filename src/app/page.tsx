@@ -109,11 +109,20 @@ function Hero() {
           </div>
         </div>
 
-        {/* Right — Halftone + Cards */}
+        {/* Right — Screenshot + Cards */}
         <div className="relative flex flex-col">
-          {/* Halftone top */}
-          <div className="relative flex-1">
-            <HalftonePattern color="#2E2717" dotSize={1.2} spacing={5} />
+          {/* Screenshot top */}
+          <div className="relative flex flex-1 items-center justify-center overflow-hidden bg-[#F5EFE3]">
+            <HalftonePattern color="#2E2717" dotSize={1.2} spacing={5} className="opacity-[0.06]" />
+            <motion.img
+              initial={{ opacity: 0, y: 20, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.4 }}
+              src="/screenshots/reading-assistant.webp"
+              alt="Varq reading assistant"
+              className="relative z-10 w-[85%] max-w-[540px] rounded-lg shadow-2xl"
+              loading="eager"
+            />
           </div>
 
           {/* Dark card */}
@@ -163,26 +172,36 @@ function Features() {
       title: "Library",
       text: "Drag and drop EPUB, PDF, CBZ. Auto-extracted covers, titles, authors. Duplicate detection. Sortable grid.",
       bg: "bg-white",
+      titleColor: "text-aspen-dark",
+      textColor: "text-aspen-dark/70",
+      numberColor: "text-aspen-dark/60",
       hasHalftone: true,
     },
     {
       title: "Reader",
       text: "Native paginated EPUB/PDF. Arrow keys, swipe, click zones. Remembers exact position per book.",
       bg: "bg-aspen-dark",
+      titleColor: "text-white",
       textColor: "text-white/90",
+      numberColor: "text-white/50",
       hasHalftone: false,
     },
     {
       title: "Highlights",
       text: "Persistent highlights in terracotta and saffron. Notes with citation markers. Export to Markdown or JSON.",
       bg: "bg-varq-saffron",
+      titleColor: "text-aspen-dark",
       textColor: "text-aspen-dark",
+      numberColor: "text-aspen-dark/60",
       hasHalftone: true,
     },
     {
       title: "Private",
       text: "Touch ID-gated private shelf. Real CryptoKit encryption at rest — not just UI hiding.",
       bg: "bg-white",
+      titleColor: "text-aspen-dark",
+      textColor: "text-aspen-dark/70",
+      numberColor: "text-aspen-dark/60",
       hasHalftone: true,
     },
   ];
@@ -210,13 +229,13 @@ function Features() {
               />
             )}
             <div className="relative">
-              <span className="text-xs font-medium uppercase tracking-widest text-aspen-dark/40">
+              <span className={`text-xs font-medium uppercase tracking-widest ${f.numberColor}`}>
                 0{i + 1}
               </span>
-              <h3 className="mt-4 text-4xl font-bold tracking-tight text-aspen-dark md:text-5xl">
+              <h3 className={`mt-4 text-4xl font-bold tracking-tight md:text-5xl ${f.titleColor}`}>
                 {f.title}
               </h3>
-              <p className={`mt-4 max-w-sm text-sm leading-relaxed ${f.textColor || "text-aspen-dark/70"}`}>
+              <p className={`mt-4 max-w-sm text-sm leading-relaxed ${f.textColor}`}>
                 {f.text}
               </p>
             </div>
@@ -275,16 +294,9 @@ function Testimonials() {
   return (
     <section id="testimonials" className="border-t border-aspen-border">
       <div className="grid md:grid-cols-[1fr_2fr_1fr]">
-        {/* Left — Image panel */}
-        <div className="relative min-h-[300px] border-b border-aspen-border bg-aspen-gray md:min-h-auto md:border-b-0 md:border-r">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <img
-              src="/screenshots/reader-highlights.webp"
-              alt="Varq reader"
-              className="h-full w-full object-cover"
-              loading="lazy"
-            />
-          </div>
+        {/* Left — Pattern panel */}
+        <div className="relative min-h-[300px] border-b border-aspen-border bg-varq-parchment md:min-h-auto md:border-b-0 md:border-r">
+          <HalftonePattern color="#2E2717" dotSize={1} spacing={5} className="opacity-[0.08]" />
         </div>
 
         {/* Center — Quote */}
