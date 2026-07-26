@@ -14,11 +14,22 @@
   --color-varq-ink-light: #2E2717;
   --color-varq-ink-dark: #EDE4D0;
 
+  /* Onlook-style dark accents */
+  --color-varq-night: #050507;
+  --color-varq-night-elevated: #0f0f12;
+  --color-varq-aurora-purple: #7c3aed;
+  --color-varq-aurora-blue: #2563eb;
+  --color-varq-aurora-pink: #db2777;
+  --color-varq-aurora-cyan: #06b6d4;
+  --color-varq-text-primary: #f5f5f7;
+  --color-varq-text-secondary: #a1a1aa;
+  --color-varq-border: rgba(255, 255, 255, 0.08);
+
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Playfair Display", Georgia, "New York", serif;
 
-  --color-background: var(--color-varq-parchment);
-  --color-foreground: var(--color-varq-ink-light);
+  --color-background: var(--color-varq-night);
+  --color-foreground: var(--color-varq-text-primary);
 }
 
 @layer base {
@@ -26,8 +37,8 @@
     scroll-behavior: smooth;
   }
   body {
-    background-color: var(--color-varq-parchment);
-    color: var(--color-varq-ink-light);
+    background-color: var(--color-varq-night);
+    color: var(--color-varq-text-primary);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
