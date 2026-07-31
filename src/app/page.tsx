@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Menu, X } from "lucide-react";
 import { HalftonePattern } from "@/components/HalftonePattern";
 
+const LATEST_DMG_DOWNLOAD_URL =
+  "https://github.com/PratikRai0101/Varq/releases/latest/download/Varq.dmg";
+
 /* ───────── Top Bar ───────── */
 function TopBar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -24,7 +27,7 @@ function TopBar() {
 
         {/* Nav */}
         <nav className="hidden flex-1 items-center justify-center gap-8 text-sm font-medium text-aspen-dark md:flex">
-          {["About", "Features", "Testimonials", "Download"].map((item) => (
+          {["About", "Features", "Details", "Download"].map((item) => (
             <a
               key={item}
               href={`#${item.toLowerCase()}`}
@@ -57,7 +60,7 @@ function TopBar() {
       {menuOpen && (
         <div className="border-b border-aspen-border bg-white px-6 py-6 md:hidden">
           <nav className="flex flex-col gap-4 text-lg font-medium">
-            {["About", "Features", "Testimonials", "Download"].map((item) => (
+            {["About", "Features", "Details", "Download"].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
@@ -147,7 +150,7 @@ function Hero() {
             className="relative border-t border-aspen-border bg-varq-saffron p-6 md:p-8"
           >
             <p className="text-sm font-medium uppercase tracking-widest text-aspen-dark/70">
-              Now on the Mac App Store
+              Latest release for macOS
             </p>
             <p className="mt-2 text-lg font-medium text-aspen-dark">
               Free & open source. MIT Licensed.
@@ -156,7 +159,7 @@ function Hero() {
               href="#download"
               className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-aspen-dark transition-opacity hover:opacity-60"
             >
-              Start a conversation <ArrowRight size={16} />
+              Get the latest release <ArrowRight size={16} />
             </a>
           </motion.div>
         </div>
@@ -289,44 +292,47 @@ function Showcase() {
   );
 }
 
-/* ───────── Testimonials ───────── */
-function Testimonials() {
+/* ───────── Product Details ───────── */
+function ProductDetails() {
   return (
-    <section id="testimonials" className="border-t border-aspen-border">
+    <section id="details" className="border-t border-aspen-border">
       <div className="grid md:grid-cols-[1fr_2fr_1fr]">
         {/* Left — Pattern panel */}
         <div className="relative min-h-[300px] border-b border-aspen-border bg-varq-parchment md:min-h-auto md:border-b-0 md:border-r">
           <HalftonePattern color="#2E2717" dotSize={1} spacing={5} className="opacity-[0.08]" />
         </div>
 
-        {/* Center — Quote */}
+        {/* Center — Product positioning */}
         <div className="flex flex-col justify-between border-b border-aspen-border bg-white p-8 md:border-b-0 md:border-r md:p-12">
           <div />
           <div>
             <p className="text-xl font-medium leading-snug text-aspen-dark md:text-2xl">
-              "Varq finally gave me the native macOS reading experience I was looking for. The warm sepia mode is perfect for late-night sessions, and exporting highlights to Obsidian is seamless."
+              A native reading space for your library, your highlights, and your next chapter.
             </p>
             <div className="mt-8 flex items-center gap-4">
-              <div className="h-10 w-10 rounded-full bg-aspen-dark" />
+              <div
+                aria-hidden="true"
+                className="h-10 w-10 bg-[url('/compass-mark.svg')] bg-contain bg-center bg-no-repeat"
+              />
               <div>
-                <p className="text-sm font-semibold text-aspen-dark">Alex Chen</p>
-                <p className="text-xs uppercase tracking-wider text-aspen-dark/50">Researcher & Writer</p>
+                <p className="text-sm font-semibold text-aspen-dark">Built for macOS</p>
+                <p className="text-xs uppercase tracking-wider text-aspen-dark/50">Native SwiftUI · Open source</p>
               </div>
             </div>
           </div>
           <div className="mt-8 flex items-center gap-4 text-xs text-aspen-dark/40">
-            <span>01</span>
+            <span>Native app</span>
             <div className="h-px flex-1 bg-aspen-border" />
-            <span>03</span>
+            <span>MIT licensed</span>
           </div>
         </div>
 
-        {/* Right — Dark metadata */}
+        {/* Right — Product metadata */}
         <div className="flex flex-col justify-between bg-aspen-dark p-8 md:p-10">
           <div className="space-y-6">
             <div>
-              <p className="text-xs uppercase tracking-widest text-white/40">Position</p>
-              <p className="mt-1 text-sm font-medium text-white">Power Reader</p>
+              <p className="text-xs uppercase tracking-widest text-white/40">App</p>
+              <p className="mt-1 text-sm font-medium text-white">Native e-reader</p>
             </div>
             <div>
               <p className="text-xs uppercase tracking-widest text-white/40">Formats</p>
@@ -398,12 +404,11 @@ function DownloadSection() {
 
           {/* CTA bar */}
           <a
-            href="https://apps.apple.com"
-            target="_blank"
-            rel="noopener noreferrer"
+            href={LATEST_DMG_DOWNLOAD_URL}
+            download
             className="flex items-center justify-between border-t border-aspen-border bg-varq-saffron p-6 text-aspen-dark transition-colors hover:bg-varq-terracotta hover:text-white md:p-8"
           >
-            <span className="text-lg font-semibold">Download on the Mac App Store</span>
+            <span className="text-lg font-semibold">Download the latest .dmg</span>
             <ArrowRight size={20} />
           </a>
         </div>
@@ -440,7 +445,7 @@ export default function Home() {
         <Hero />
         <Features />
         <Showcase />
-        <Testimonials />
+        <ProductDetails />
         <DownloadSection />
       </main>
       <Footer />
