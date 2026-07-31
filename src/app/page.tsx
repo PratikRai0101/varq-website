@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import Lenis from "lenis";
 import { ArrowRight, ArrowUpRight, Menu, X } from "lucide-react";
 import { HalftonePattern } from "@/components/HalftonePattern";
 
@@ -438,6 +439,21 @@ function Footer() {
 
 /* ───────── Page ───────── */
 export default function Home() {
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    const lenis = new Lenis({
+      anchors: true,
+      autoRaf: true,
+      lerp: 0.1,
+      wheelMultiplier: 0.9,
+    });
+
+    return () => lenis.destroy();
+  }, []);
+
   return (
     <>
       <TopBar />
