@@ -28,7 +28,7 @@ function TopBar() {
 
         {/* Nav */}
         <nav className="hidden flex-1 items-center justify-center gap-8 text-sm font-medium text-aspen-dark md:flex">
-          {["About", "Features", "Details", "Download"].map((item) => (
+          {["About", "Features", "Details"].map((item) => (
             <a
               key={item}
               href={`#${item.toLowerCase()}`}
@@ -37,6 +37,13 @@ function TopBar() {
               {item}
             </a>
           ))}
+          <a
+            href={LATEST_DMG_DOWNLOAD_URL}
+            download
+            className="transition-opacity hover:opacity-60"
+          >
+            Download
+          </a>
         </nav>
 
         {/* Mobile menu toggle */}
@@ -49,7 +56,8 @@ function TopBar() {
 
         {/* Contact CTA */}
         <a
-          href="#download"
+          href={LATEST_DMG_DOWNLOAD_URL}
+          download
           className="hidden items-center gap-2 border-l border-aspen-border bg-aspen-dark px-6 text-sm font-medium text-white transition-colors hover:bg-varq-indigo md:flex"
         >
           Get Varq
@@ -61,7 +69,7 @@ function TopBar() {
       {menuOpen && (
         <div className="border-b border-aspen-border bg-white px-6 py-6 md:hidden">
           <nav className="flex flex-col gap-4 text-lg font-medium">
-            {["About", "Features", "Details", "Download"].map((item) => (
+            {["About", "Features", "Details"].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
@@ -72,7 +80,16 @@ function TopBar() {
               </a>
             ))}
             <a
-              href="#download"
+              href={LATEST_DMG_DOWNLOAD_URL}
+              download
+              onClick={() => setMenuOpen(false)}
+              className="py-2"
+            >
+              Download
+            </a>
+            <a
+              href={LATEST_DMG_DOWNLOAD_URL}
+              download
               className="mt-2 inline-flex items-center gap-2 bg-aspen-dark px-4 py-3 text-sm font-medium text-white"
             >
               Get Varq <ArrowRight size={16} />
@@ -157,7 +174,8 @@ function Hero() {
               Free & open source. MIT Licensed.
             </p>
             <a
-              href="#download"
+              href={LATEST_DMG_DOWNLOAD_URL}
+              download
               className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-aspen-dark transition-opacity hover:opacity-60"
             >
               Get the latest release <ArrowRight size={16} />
